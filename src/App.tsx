@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import CourseCard from './components/CourseCard'
@@ -37,14 +37,24 @@ const courses = [
 ];
 
 function App() {
+  // Step 1: Move state here
+  const [enrolledCourses, setEnrolledCourses] = useState<number[]>([]);
+
+  // Step 2: Event handler in parent 
+  const handleEnroll = (courseId: number) => {
+    setEnrolledCourses([...enrolledCourses, courseId]);
+  }
+
   return (
     <div className="App">
       {courses.map(course => (
         <CourseCard
-          key={course.id} // Unique key for each course
+          key={course.id}
           title={course.title}
           description={course.description}
           lessons={course.lessons}
+          isEnrolled={enrolledCourses.includes(course.id)} // Step 3: Pass state as props
+          onEnroll={() => handleEnroll(course.id)} // Step 4: Pass event handler as props
         />
       ))}
       <header className="App-header">

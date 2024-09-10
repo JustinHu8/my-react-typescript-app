@@ -6,14 +6,12 @@ interface CourseCardProps {
   title: string;
   description: string;
   lessons: number;
+  onEnroll: () => void;
+  isEnrolled: boolean;
 }
 
 const CourseCard: React.FC<CourseCardProps> = (props) => {
-  const [isEnrolled, setIsEnrolled] = useState<boolean>(false);
-
-  const handleEnroll = () => {
-    setIsEnrolled(true);
-  }
+  const { onEnroll, isEnrolled } = props;
 
   return (
     <div className="my-class">
@@ -21,7 +19,7 @@ const CourseCard: React.FC<CourseCardProps> = (props) => {
       <p>{props.description}</p>
       <p>{props.lessons} lectures</p>
 
-      <button onClick={handleEnroll} disabled={isEnrolled}>
+      <button onClick={onEnroll} disabled={isEnrolled}>
         {isEnrolled ? '已报名': '立即报名' }
       </button>
     </div>
