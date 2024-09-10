@@ -53,8 +53,10 @@ function App() {
           title={course.title}
           description={course.description}
           lessons={course.lessons}
-          isEnrolled={enrolledCourses.includes(course.id)} // Step 3: Pass state as props
-          onEnroll={() => handleEnroll(course.id)} // Step 4: Pass event handler as props
+          // Step 3: Pass state as props
+          isEnrolled={enrolledCourses.includes(course.id)} 
+          // Step 4: Pass event handler as props
+          onEnroll={() => handleEnroll(course.id)} 
         />
       ))}
       <header className="App-header">

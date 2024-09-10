@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './styles.css';
 
-// Define the type for props
 interface CourseCardProps {
   title: string;
   description: string;
@@ -11,7 +10,6 @@ interface CourseCardProps {
 }
 
 const CourseCard: React.FC<CourseCardProps> = (props) => {
-  const { onEnroll, isEnrolled } = props;
 
   return (
     <div className="my-class">
@@ -19,8 +17,9 @@ const CourseCard: React.FC<CourseCardProps> = (props) => {
       <p>{props.description}</p>
       <p>{props.lessons} lectures</p>
 
-      <button onClick={onEnroll} disabled={isEnrolled}>
-        {isEnrolled ? '已报名': '立即报名' }
+      {/* Step 5: he CourseCard will now receive isEnrolled and onEnroll as props from the parent component. */}
+      <button onClick={props.onEnroll} disabled={props.isEnrolled}>
+        {props.isEnrolled ? '已报名': '立即报名' }
       </button>
     </div>
   );
