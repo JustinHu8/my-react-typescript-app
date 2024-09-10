@@ -3,13 +3,50 @@ import logo from './logo.svg';
 import './App.css';
 import CourseCard from './components/CourseCard'
 
+const courses = [
+  {
+    id: 3,
+    title: "Redux Basic",
+    description: "This is not easy",
+    lessons: 15
+  },
+  {
+    id: 1,
+    title: "TypeScript Basic",
+    description: "This is awesome",
+    lessons: 10
+  },
+  {
+    id: 5,
+    title: "Blah blah",
+    description: "This is awesome",
+    lessons: 10
+  },
+  {
+    id: 2,
+    title: "JavaScript Basic",
+    description: "This is bad",
+    lessons: 90
+  },
+  {
+    id: 4,
+    title: ".NET Basic",
+    description: "This is too much",
+    lessons: 30
+  }
+];
+
 function App() {
   return (
     <div className="App">
-      <CourseCard title="TypeScript Basic" description="This is awesome" lessons={10} />
-      <CourseCard title="JavaScript Basic" description="This is bad" lessons={90} />
-      <CourseCard title="Redux Basic" description="This is not easy" lessons={15} />
-      <CourseCard title=".NET Basic" description="This is too much" lessons={30} />
+      {courses.map(course => (
+        <CourseCard
+          key={course.id} // Unique key for each course
+          title={course.title}
+          description={course.description}
+          lessons={course.lessons}
+        />
+      ))}
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
