@@ -1,62 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import CourseCard from './components/CourseCard'
+import CourseCard from './components/CourseCard';
 
-const courses = [
-  {
-    id: 3,
-    title: "Redux Basic",
-    description: "This is not easy",
-    lessons: 15
-  },
-  {
-    id: 1,
-    title: "TypeScript Basic",
-    description: "This is awesome",
-    lessons: 10
-  },
-  {
-    id: 5,
-    title: "Blah blah",
-    description: "This is awesome",
-    lessons: 10
-  },
-  {
-    id: 2,
-    title: "JavaScript Basic",
-    description: "This is bad",
-    lessons: 90
-  },
-  {
-    id: 4,
-    title: ".NET Basic",
-    description: "This is too much",
-    lessons: 30
-  }
-];
+interface Course {
+  id: number;
+  title: string;
+  description: string;
+  lessons: number;
+}
 
 function App() {
-  // Step 1: Move state here
+  // State for courses and enrolled courses
+  const [courses, setCourses] = useState<Course[]>([]);
   const [enrolledCourses, setEnrolledCourses] = useState<number[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Step 2: Event handler in parent 
+  // Fetch data from API
+  useEffect(() => {
+    fetch('https://my-json-server.typicode.com/JustinHu8/courseCardMock/courseCards')
+      .then((response) => response.json())
+      .then((data) => {
+        setCourses(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError('Failed to fetch courses.');
+        setLoading(false);
+      });
+  }, []);
+
+  // Event handler to enroll in a course
   const handleEnroll = (courseId: number) => {
     setEnrolledCourses([...enrolledCourses, courseId]);
+  };
+
+  // Render loading state
+  if (loading) {
+    return <div>Loading courses...</div>;
+  }
+
+  // Render error state
+  if (error) {
+    return <div>{error}</div>;
   }
 
   return (
     <div className="App">
-      {courses.map(course => (
+      {courses.map((course) => (
         <CourseCard
           key={course.id}
           title={course.title}
           description={course.description}
           lessons={course.lessons}
-          // Step 3: Pass state as props
-          isEnrolled={enrolledCourses.includes(course.id)} 
-          // Step 4: Pass event handler as props
-          onEnroll={() => handleEnroll(course.id)} 
+          isEnrolled={enrolledCourses.includes(course.id)}
+          onEnroll={() => handleEnroll(course.id)}
         />
       ))}
       <header className="App-header">
