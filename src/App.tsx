@@ -16,23 +16,32 @@ function App() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [enrolledCourses, setEnrolledCourses] = useState<number[]>([]);
 
-  // Fetch courses from the remote URL
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await fetch('https://my-json-server.typicode.com/JustinHu8/courseCardMock/courseCards');
-        if (!response.ok) {
-          throw new Error('Failed to fetch courses');
-        }
-        const data: Course[] = await response.json();
-        setCourses(data); // Update courses state
-      } catch (error) {
-        console.log('Error fetching data');
-      }
-    };
 
-    fetchCourses();
-  }, []);
+  async function fetchCourses() {
+    const response = await fetch('https://my-json-server.typicode.com/JustinHu8/courseCardMock/courseCards');
+    const data = await response.json();
+    console.log(data);
+  }
+
+  fetchCourses()
+
+  // Fetch courses from the remote URL
+  // useEffect(() => {
+  //   const fetchCourses = async () => {
+  //     try {
+  //       const response = await fetch('https://my-json-server.typicode.com/JustinHu8/courseCardMock/courseCards');
+  //       if (!response.ok) {
+  //         throw new Error('Failed to fetch courses');
+  //       }
+  //       const data: Course[] = await response.json();
+  //       setCourses(data); // Update courses state
+  //     } catch (error) {
+  //       console.log('Error fetching data');
+  //     }
+  //   };
+
+  //   fetchCourses();
+  // }, []);
 
   const handleEnroll = (courseId: number) => {
     setEnrolledCourses([...enrolledCourses, courseId]);
