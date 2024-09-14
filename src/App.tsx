@@ -16,17 +16,16 @@ function App() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [enrolledCourses, setEnrolledCourses] = useState<number[]>([]);
 
-  // Fetch courses from the remote URL using Promise style
-  useEffect(() => {
-    fetch('https://my-json-server.typicode.com/JustinHu8/courseCardMock/courseCards')
-      .then(response => response.json())
-      .then(data => {
-        setCourses(data); // Update courses state
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+  // Bad practice
+  // Fetch courses without using useEffect hook
+  fetch('https://my-json-server.typicode.com/JustinHu8/courseCardMock/courseCards')
+    .then(response => response.json())
+    .then(data => {
+      setCourses(data); // Update courses state
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
 
   const handleEnroll = (courseId: number) => {
     setEnrolledCourses([...enrolledCourses, courseId]);
