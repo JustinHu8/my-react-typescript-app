@@ -16,17 +16,32 @@ function App() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [enrolledCourses, setEnrolledCourses] = useState<number[]>([]);
 
-  // Fetch courses from the remote URL using Promise style
   useEffect(() => {
+  
     fetch('https://my-json-server.typicode.com/JustinHu8/courseCardMock/courseCards')
-      .then(response => response.json())
-      .then(data => {
-        setCourses(data); // Update courses state
+      .then(response => response.json()) // After receiving the response from the server, response.json() is called to convert the raw data (which is typically in a text format) into a usable JavaScript object (JSON).
+      .then(data => { // The data argument represents the parsed JSON object
+        console.log('data', data);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
+
   }, []);
+
+  // // Fetch courses from the remote URL using Promise style
+  // useEffect(() => {
+
+  //   fetch('https://my-json-server.typicode.com/JustinHu8/courseCardMock/courseCards')
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       setCourses(data); // Update courses state
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching data:', error);
+  //     });
+
+  // }, []);
 
   const handleEnroll = (courseId: number) => {
     setEnrolledCourses([...enrolledCourses, courseId]);
