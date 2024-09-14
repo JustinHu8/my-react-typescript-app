@@ -1,49 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import CourseCard from './components/CourseCard'
 import CourseSummary from './components/CourseSummary'
 
-const courses = [
-  {
-    id: 1,
-    title: "TypeScript Basic",
-    description: "This is awesome",
-    lessons: 10
-  },
-  {
-    id: 2,
-    title: "JavaScript Basic",
-    description: "This is bad",
-    lessons: 90
-  },
-  {
-    id: 3,
-    title: "Redux Basic",
-    description: "This is not easy",
-    lessons: 15
-  },
-  {
-    id: 4,
-    title: ".NET Basic",
-    description: "This is too much",
-    lessons: 30
-  }
-];
+// Define the course type
+interface Course {
+  id: number;
+  title: string;
+  description: string;
+  lessons: number;
+}
 
 function App() {
+  const [courses, setCourses] = useState<Course[]>([]);
   const [enrolledCourses, setEnrolledCourses] = useState<number[]>([]);
-  // [1, 2, 3, 4, 5]  
-  // const [enrolledCourses, setEnrolledCourses] = useState([]);
+
+  // Fetch courses from the remote URL
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch('https://my-json-server.typicode.com/JustinHu8/courseCardMock/courseCards');
+        if (!response.ok) {
+          throw new Error('Failed to fetch courses');
+        }
+        const data: Course[] = await response.json();
+        setCourses(data); // Update courses state
+      } catch (error) {
+        console.log('Error fetching data');
+      }
+    };
+
+    fetchCourses();
+  }, []);
 
   const handleEnroll = (courseId: number) => {
     setEnrolledCourses([...enrolledCourses, courseId]);
   }
-  // If to write in JavaScript, it will be like this:
-  // const handleEnroll = (courseId) => {
-  //   setEnrolledCourses([...enrolledCourses, courseId]);
-  // }
-
 
   return (
     <div className="App">
